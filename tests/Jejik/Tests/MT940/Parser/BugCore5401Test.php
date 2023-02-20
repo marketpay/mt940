@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Jejik\MT940 library
+ * This file is part of the MarketPay\MT940 library
  *
  * Copyright (c) 2021 Powercloud GmbH <d.richter@powercloud.de>
  * Licensed under the MIT license
@@ -12,9 +12,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Jejik\Tests\MT940\Parser;
+namespace MarketPay\Tests\MT940\Parser;
 
-use Jejik\MT940\Reader;
+use MarketPay\MT940\Reader;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,7 +27,7 @@ class BugCore5401Test extends TestCase
     public $statements = [];
 
     /**
-     * @throws \Jejik\MT940\Exception\NoParserFoundException
+     * @throws \MarketPay\MT940\Exception\NoParserFoundException
      */
     public function setUp(): void
     {
@@ -47,7 +47,7 @@ class BugCore5401Test extends TestCase
     public function testBalance()
     {
         $balance = $this->statements[0]->getOpeningBalance();
-        $this->assertInstanceOf(\Jejik\MT940\Balance::class, $balance);
+        $this->assertInstanceOf(\MarketPay\MT940\Balance::class, $balance);
         // Informations from Field :60x:
         $this->assertEquals('2021-03-30 00:00:00', $balance->getDate()->format('Y-m-d H:i:s'));
         $this->assertEquals('EUR', $balance->getCurrency());

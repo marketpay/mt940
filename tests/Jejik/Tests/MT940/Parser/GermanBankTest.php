@@ -1,13 +1,13 @@
 <?php
 
-namespace Jejik\Tests\MT940\Parser;
+namespace MarketPay\Tests\MT940\Parser;
 
-use Jejik\MT940\Account;
-use Jejik\MT940\Balance;
-use Jejik\MT940\Parser\DeutscheBank;
-use Jejik\MT940\Reader;
-use Jejik\MT940\Statement;
-use Jejik\MT940\Transaction;
+use MarketPay\MT940\Account;
+use MarketPay\MT940\Balance;
+use MarketPay\MT940\Parser\DeutscheBank;
+use MarketPay\MT940\Reader;
+use MarketPay\MT940\Statement;
+use MarketPay\MT940\Transaction;
 
 class GermanBankTest extends \PHPUnit\Framework\TestCase
 {

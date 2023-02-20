@@ -8,8 +8,8 @@
         stopOnFailure="false"
 >
     <testsuites>
-        <testsuite name="Jejik\MT940 Test Suite">
-            <directory>./tests/Jejik/Tests</directory>
+        <testsuite name="MarketPay\MT940 Test Suite">
+            <directory>./tests/MarketPay/Tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

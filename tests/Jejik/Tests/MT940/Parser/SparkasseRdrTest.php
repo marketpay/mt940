@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Jejik\MT940 library and tests the RDR Field in sepa
+ * This file is part of the MarketPay\MT940 library and tests the RDR Field in sepa
  * file.
  *
  * Copyright (c) 2020 Powercloud GmbH <d.richter@powercloud.de>
@@ -13,13 +13,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Jejik\Tests\MT940\Parser;
+namespace MarketPay\Tests\MT940\Parser;
 
-use Jejik\MT940\Reader;
+use MarketPay\MT940\Reader;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for Jejik\MT940\Parser\Sparkasse
+ * Tests for MarketPay\MT940\Parser\Sparkasse
  *
  * @author Dominic Richter <d.richter@powercloud.de>
  */
@@ -28,12 +28,12 @@ class SparkasseRdrTest extends TestCase
     public $statements = [];
 
     /**
-     * @throws \Jejik\MT940\Exception\NoParserFoundException
+     * @throws \MarketPay\MT940\Exception\NoParserFoundException
      */
     public function setUp(): void
     {
         $reader = new Reader();
-        $reader->addParser('Sparkasse', \Jejik\MT940\Parser\Sparkasse::class);
+        $reader->addParser('Sparkasse', \MarketPay\MT940\Parser\Sparkasse::class);
         $this->statements = $reader->getStatements(file_get_contents(__DIR__ . '/../Fixture/document/sparkasse2.txt'));
     }
 
@@ -49,7 +49,7 @@ class SparkasseRdrTest extends TestCase
     public function testBalance()
     {
         $balance = $this->statements[0]->getOpeningBalance();
-        $this->assertInstanceOf(\Jejik\MT940\Balance::class, $balance);
+        $this->assertInstanceOf(\MarketPay\MT940\Balance::class, $balance);
         $this->assertEquals('2020-02-19 00:00:00', $balance->getDate()->format('Y-m-d H:i:s'));
         $this->assertEquals('EUR', $balance->getCurrency());
         $this->assertEquals(931052.29, $balance->getAmount());

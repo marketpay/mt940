@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Jejik\MT940 library
+ * This file is part of the MarketPay\MT940 library
  *
  * Copyright (c) 2012 Sander Marechal <s.marechal@jejik.com>
  * Licensed under the MIT license
@@ -12,13 +12,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Jejik\Tests\MT940\Parser;
+namespace MarketPay\Tests\MT940\Parser;
 
-use Jejik\MT940\Reader;
+use MarketPay\MT940\Reader;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for Jejik\MT940\Parser\Triodos
+ * Tests for MarketPay\MT940\Parser\Triodos
  *
  * @author Sander Marechal <s.marechal@jejik.com>
  */
@@ -27,12 +27,12 @@ class TriodosTest extends TestCase
     public $statements = [];
 
     /**
-     * @throws \Jejik\MT940\Exception\NoParserFoundException
+     * @throws \MarketPay\MT940\Exception\NoParserFoundException
      */
     public function setUp(): void
     {
         $reader = new Reader();
-        $reader->addParser('Triodos', \Jejik\MT940\Parser\Triodos::class);
+        $reader->addParser('Triodos', \MarketPay\MT940\Parser\Triodos::class);
         $this->statements = $reader->getStatements(file_get_contents(__DIR__ . '/../Fixture/document/triodos.txt'));
     }
 
@@ -49,7 +49,7 @@ class TriodosTest extends TestCase
     public function testBalance()
     {
         $balance = $this->statements[0]->getOpeningBalance();
-        $this->assertInstanceOf(\Jejik\MT940\Balance::class, $balance);
+        $this->assertInstanceOf(\MarketPay\MT940\Balance::class, $balance);
         $this->assertEquals('2011-01-01 00:00:00', $balance->getDate()->format('Y-m-d H:i:s'));
         $this->assertEquals('EUR', $balance->getCurrency());
         $this->assertEquals(4975.09, $balance->getAmount());

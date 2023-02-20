@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Jejik\MT940 library
+ * This file is part of the MarketPay\MT940 library
  *
  * Copyright (c) 2020 Powercloud GmbH <l.fürderer@powercloud.de>
  * Licensed under the MIT license
@@ -12,11 +12,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Jejik\Tests\MT940\Parser;
+namespace MarketPay\Tests\MT940\Parser;
 
 /**
  * Class GeneralGermanBankTest A positive and negative test for SpecificGermanBankParser
- * @package Jejik\Tests\MT940\Parser
+ * @package MarketPay\Tests\MT940\Parser
  */
 class SpecificGermanBankTest extends \PHPUnit\Framework\TestCase
 {
@@ -31,10 +31,10 @@ class SpecificGermanBankTest extends \PHPUnit\Framework\TestCase
      */
     private function parseExampleFile(string $expectedTransactionReferenceNumber): array
     {
-        $reader = new \Jejik\MT940\Reader();
+        $reader = new \MarketPay\MT940\Reader();
         $reader->addParser(
             'specific parser',
-            \Jejik\MT940\Parser\SpecificGermanBankParser::class,
+            \MarketPay\MT940\Parser\SpecificGermanBankParser::class,
             null,
             [$expectedTransactionReferenceNumber]
         );
@@ -73,7 +73,7 @@ EOF
         try {
             $statements = $this->parseExampleFile('OTHER');
             $this->fail('expected an exception');
-        } catch (\Jejik\MT940\Exception\NoParserFoundException $e) {
+        } catch (\MarketPay\MT940\Exception\NoParserFoundException $e) {
             $this->assertEquals('No suitable parser found.', $e->getMessage());
         }
     }

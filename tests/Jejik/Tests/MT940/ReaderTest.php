@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Jejik\MT940 library
+ * This file is part of the MarketPay\MT940 library
  *
  * Copyright (c) 2012 Sander Marechal <s.marechal@jejik.com>
  * Licensed under the MIT license
@@ -12,16 +12,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Jejik\Tests\MT940;
+namespace MarketPay\Tests\MT940;
 
-use Jejik\MT940\Reader;
-use Jejik\Tests\MT940\Fixture\Balance;
-use Jejik\Tests\MT940\Fixture\Statement;
-use Jejik\Tests\MT940\Fixture\Transaction;
+use MarketPay\MT940\Reader;
+use MarketPay\Tests\MT940\Fixture\Balance;
+use MarketPay\Tests\MT940\Fixture\Statement;
+use MarketPay\Tests\MT940\Fixture\Transaction;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for Jejik\MT940\Reader
+ * Tests for MarketPay\MT940\Reader
  *
  * @author Sander Marechal <s.marechal@jejik.com>
  */
@@ -73,38 +73,38 @@ class ReaderTest extends TestCase
     }
 
     /**
-     * @throws \Jejik\MT940\Exception\NoParserFoundException
+     * @throws \MarketPay\MT940\Exception\NoParserFoundException
      */
     public function testStringInjection()
     {
         $reader = new Reader();
-        $reader->setParsers(['Generic' => \Jejik\Tests\MT940\Fixture\Parser::class]);
+        $reader->setParsers(['Generic' => \MarketPay\Tests\MT940\Fixture\Parser::class]);
 
-        $reader->setStatementClass(\Jejik\Tests\MT940\Fixture\Statement::class);
-        $reader->setAccountClass(\Jejik\Tests\MT940\Fixture\Account::class);
-        $reader->setContraAccountClass(\Jejik\Tests\MT940\Fixture\Account::class);
-        $reader->setTransactionClass(\Jejik\Tests\MT940\Fixture\Transaction::class);
-        $reader->setOpeningBalanceClass(\Jejik\Tests\MT940\Fixture\Balance::class);
-        $reader->setClosingBalanceClass(\Jejik\Tests\MT940\Fixture\Balance::class);
+        $reader->setStatementClass(\MarketPay\Tests\MT940\Fixture\Statement::class);
+        $reader->setAccountClass(\MarketPay\Tests\MT940\Fixture\Account::class);
+        $reader->setContraAccountClass(\MarketPay\Tests\MT940\Fixture\Account::class);
+        $reader->setTransactionClass(\MarketPay\Tests\MT940\Fixture\Transaction::class);
+        $reader->setOpeningBalanceClass(\MarketPay\Tests\MT940\Fixture\Balance::class);
+        $reader->setClosingBalanceClass(\MarketPay\Tests\MT940\Fixture\Balance::class);
 
         $statements = $reader->getStatements(file_get_contents(__DIR__ . '/Fixture/document/generic.txt'));
 
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Statement::class, $statements[0]);
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Account::class, $statements[0]->getAccount());
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Balance::class, $statements[0]->getOpeningBalance());
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Balance::class, $statements[0]->getClosingBalance());
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Statement::class, $statements[0]);
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Account::class, $statements[0]->getAccount());
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Balance::class, $statements[0]->getOpeningBalance());
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Balance::class, $statements[0]->getClosingBalance());
 
         $transactions = $statements[0]->getTransactions();
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Transaction::class, $transactions[0]);
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Transaction::class, $transactions[0]);
     }
 
     /**
-     * @throws \Jejik\MT940\Exception\NoParserFoundException
+     * @throws \MarketPay\MT940\Exception\NoParserFoundException
      */
     public function testCallableInjection()
     {
         $reader = new Reader();
-        $reader->setParsers(array('Generic' => \Jejik\Tests\MT940\Fixture\Parser::class));
+        $reader->setParsers(array('Generic' => \MarketPay\Tests\MT940\Fixture\Parser::class));
 
         $reader->setStatementClass(function () {
             return new Statement();
@@ -121,21 +121,21 @@ class ReaderTest extends TestCase
 
         $statements = $reader->getStatements(file_get_contents(__DIR__ . '/Fixture/document/generic.txt'));
 
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Statement::class, $statements[0]);
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Balance::class, $statements[0]->getOpeningBalance());
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Balance::class, $statements[0]->getClosingBalance());
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Statement::class, $statements[0]);
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Balance::class, $statements[0]->getOpeningBalance());
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Balance::class, $statements[0]->getClosingBalance());
 
         $transactions = $statements[0]->getTransactions();
-        $this->assertInstanceOf(\Jejik\Tests\MT940\Fixture\Transaction::class, $transactions[0]);
+        $this->assertInstanceOf(\MarketPay\Tests\MT940\Fixture\Transaction::class, $transactions[0]);
     }
 
     /**
-     * @throws \Jejik\MT940\Exception\NoParserFoundException
+     * @throws \MarketPay\MT940\Exception\NoParserFoundException
      */
     public function testSkipStatement()
     {
         $reader = new Reader();
-        $reader->setParsers(['Generic' => \Jejik\Tests\MT940\Fixture\Parser::class]);
+        $reader->setParsers(['Generic' => \MarketPay\Tests\MT940\Fixture\Parser::class]);
         $reader->setStatementClass(function ($account, $number) {
             if ($number == '2') {
                 return new Statement();

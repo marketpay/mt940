@@ -1,4 +1,4 @@
-# Jejik/MT940
+# MarketPay/MT940
 
 An MT940 bank statement parser for PHP
 
@@ -6,16 +6,16 @@ An MT940 bank statement parser for PHP
 
 ## Installation
 
-You can install Jejik/MT940 using Composer. You can read more about Composer and its main repository at
+You can install MarketPay/MT940 using Composer. You can read more about Composer and its main repository at
 [http://packagist.org](http://packagist.org "Packagist"). First install Composer for your project using the instructions on the
-Packagist home page, then define your dependency on Jejik/MT940 in your `composer.json` file.
+Packagist home page, then define your dependency on MarketPay/MT940 in your `composer.json` file.
 
 ```bash
-composer require jejik/mt940
+composer require marketpay/mt940
 ```
 
 This library follows the [PSR-0 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md). You will need
-a PSR-0 compliant autoloader to load the Jejik/MT940 classes. Composer provides one for you in your
+a PSR-0 compliant autoloader to load the MarketPay/MT940 classes. Composer provides one for you in your
 `vendor/.composer/autoload.php`.
 
 [PSR-12 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-extended-coding-style-guide.md) is for Code-Syntax.
@@ -25,7 +25,7 @@ a PSR-0 compliant autoloader to load the Jejik/MT940 classes. Composer provides 
 ```php
 <?php
 
-use Jejik\MT940\Reader;
+use MarketPay\MT940\Reader;
 
 $reader = new Reader();
 $statements = $reader->getStatements(file_get_contents('mt940.txt'));
@@ -47,21 +47,21 @@ The returned statements have the following properties. Not all banks supply
 all properties (e.g. only few provide a transaction book date separately).
 Properties that are not supplied will be `null`.
 
-*   `Jejik\MT940\StatementInterface`
+*   `MarketPay\MT940\StatementInterface`
     *   `getNumber()` Statement sequence number
-    *   `getAccount()` An object implementing `Jejik\MT940\AccountInterface`
-    *   `getOpeningBalance()` An object implementing `Jejik\MT940\BalanceInterface`
-    *   `getClosingBalance()` An object implementing `Jejik\MT940\BalanceInterface`
-    *   `getTransactions()` An array of objects implementing `Jejik\MT940\TransactionInterface`
-*   `Jejik\MT940\AccountInterface`
+    *   `getAccount()` An object implementing `MarketPay\MT940\AccountInterface`
+    *   `getOpeningBalance()` An object implementing `MarketPay\MT940\BalanceInterface`
+    *   `getClosingBalance()` An object implementing `MarketPay\MT940\BalanceInterface`
+    *   `getTransactions()` An array of objects implementing `MarketPay\MT940\TransactionInterface`
+*   `MarketPay\MT940\AccountInterface`
     *   `getNumber()` The account number
     *   `getName()` The account holder name
-*   `Jejik\MT940\BalanceInterface`
+*   `MarketPay\MT940\BalanceInterface`
     *   `getCurrency()` 3-letter ISO 4217 currency code
     *   `getAmount()` Balance amount
     *   `getDate()` Balance date as a `\DateTime` object
-*   `Jejik\MT940\TransactionInterface`
-    *   `getContraAccount()` An object implementing `Jejik\MT940\AccountInterface`
+*   `MarketPay\MT940\TransactionInterface`
+    *   `getContraAccount()` An object implementing `MarketPay\MT940\AccountInterface`
     *   `getAmount()` Transaction amount
     *   `getDescription()` Description text
     *   `getValueDate()` Date of the transaction as a `\DateTime`
@@ -110,7 +110,7 @@ You can easily add your own parser to the statement reader.
 ```php
 <?php
 
-use Jejik\MT940\Reader;
+use MarketPay\MT940\Reader;
 
 $reader = new Reader();
 $reader->addParser('My bank', 'My\Bank');
@@ -122,7 +122,7 @@ add them back if you want the reader to support them as well.
 ```php
 <?php
 
-/** @var \Jejik\MT940\Reader $reader */
+/** @var \MarketPay\MT940\Reader $reader */
 $reader->addParsers($reader->getDefaultParsers());
 ```
 
@@ -132,12 +132,12 @@ example, this is how you add your parser before the ING parser.
 ```php
 <?php
 
-/** @var \Jejik\MT940\Reader $reader */
+/** @var \MarketPay\MT940\Reader $reader */
 $reader->addParsers($reader->getDefaultParsers());
 $reader->addParser('My bank', 'My\Bank', 'ING');
 ```
 
-Custom parsers should extend the `Jejik\MT940\Parser\AbstractParser` class.
+Custom parsers should extend the `MarketPay\MT940\Parser\AbstractParser` class.
 Have a look at the parsers already implemented to see how to support your
 bank. At the very minimum, you should implement the `accept()` method.
 
@@ -146,7 +146,7 @@ bank. At the very minimum, you should implement the `accept()` method.
 
 namespace My;
 
-use Jejik\MT940\Parser\AbstractParser;
+use MarketPay\MT940\Parser\AbstractParser;
 
 class Bank extends AbstractParser
 {
@@ -164,12 +164,12 @@ inject them into the MT940 reader. This allows for easily integrating MT940 into
 your application. For example, by storing the statements in your database. You can
 inject them using the following methods:
 
-* `setStatementClass($className)` defaults to `Jejik\MT940\Statement`
-* `setAccountClass($className)` defaults to `Jejik\MT940\Account`
-* `setContraAccountClass($className)` defaults to `Jejik\MT940\Account`
-* `setTransactionClass($className)` defaults to `Jejik\MT940\Transaction`
-* `setOpeningBalanceClass($className)` defaults to `Jejik\MT940\Balance`
-* `setClosingBalanceClass($className)` defaults to `Jejik\MT940\Balance`
+* `setStatementClass($className)` defaults to `MarketPay\MT940\Statement`
+* `setAccountClass($className)` defaults to `MarketPay\MT940\Account`
+* `setContraAccountClass($className)` defaults to `MarketPay\MT940\Account`
+* `setTransactionClass($className)` defaults to `MarketPay\MT940\Transaction`
+* `setOpeningBalanceClass($className)` defaults to `MarketPay\MT940\Balance`
+* `setClosingBalanceClass($className)` defaults to `MarketPay\MT940\Balance`
 
 You can either specify the classname as a string, or provide a PHP callable that
 returns an object. Your classes do not have to extend the built-in classes but
@@ -188,8 +188,8 @@ An example, integrating MT940 with your ORM:
 ```php
 <?php
 
-use Jejik\MT940\AccountInterface;
-use Jejik\MT940\Reader;
+use MarketPay\MT940\AccountInterface;
+use MarketPay\MT940\Reader;
 
 $db = new ORM(); // Whatever your flavour is...
 $reader = new Reader();
@@ -241,7 +241,7 @@ me privately. My e-mail address is listed in the source code files.
 
 ## License
 
-Jejik\MT940 is licensed under the MIT license. See the LICENSE.txt file for the
+MarketPay\MT940 is licensed under the MIT license. See the LICENSE.txt file for the
 full details. The test files for the ABN-AMRO, ING, Rabobank and Triodos bank
 come from the [dovadi/mt940](https://github.com/dovadi/mt940) ruby parser.
 Their license can be found in the LICENSE.fixtures.txt file.

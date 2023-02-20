@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Jejik\MT940 library
+ * This file is part of the MarketPay\MT940 library
  *
  * Copyright (c) 2012 Sander Marechal <s.marechal@jejik.com>
  * Licensed under the MIT license
@@ -12,9 +12,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Jejik\Tests\MT940\Fixture;
+namespace MarketPay\Tests\MT940\Fixture;
 
-use Jejik\MT940\Parser\AbstractParser;
+use MarketPay\MT940\Parser\AbstractParser;
 
 /**
  * Parser for the generic fixture document

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Jejik\MT940 library
+ * This file is part of the MarketPay\MT940 library
  *
  * Copyright (c) 2012 Sander Marechal <s.marechal@jejik.com>
  * Licensed under the MIT license
@@ -12,13 +12,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Jejik\Tests\MT940\Parser;
+namespace MarketPay\Tests\MT940\Parser;
 
-use Jejik\MT940\Reader;
+use MarketPay\MT940\Reader;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for Jejik\MT940\Parser\Ing
+ * Tests for MarketPay\MT940\Parser\Ing
  *
  * @author Sander Marechal <s.marechal@jejik.com>
  */
@@ -47,9 +47,9 @@ class IngTest extends TestCase
      */
     public function testBalance($statements)
     {
-        /** @var \Jejik\MT940\Balance $balance */
+        /** @var \MarketPay\MT940\Balance $balance */
         $balance = $statements[0]->getOpeningBalance();
-        $this->assertInstanceOf(\Jejik\MT940\Balance::class, $balance);
+        $this->assertInstanceOf(\MarketPay\MT940\Balance::class, $balance);
         $this->assertEquals('2010-07-22 00:00:00', $balance->getDate()->format('Y-m-d H:i:s'));
         $this->assertEquals('EUR', $balance->getCurrency());
         $this->assertEquals(0.0, $balance->getAmount());
@@ -92,12 +92,12 @@ class IngTest extends TestCase
 
     /**
      * @dataProvider statementsProvider
-     * @throws \Jejik\MT940\Exception\NoParserFoundException
+     * @throws \MarketPay\MT940\Exception\NoParserFoundException
      */
     public function statementsProvider(): array
     {
         $reader = new Reader();
-        $reader->addParser('Ing', \Jejik\MT940\Parser\Ing::class);
+        $reader->addParser('Ing', \MarketPay\MT940\Parser\Ing::class);
         
         return array(
             array($reader->getStatements(file_get_contents(__DIR__ . '/../Fixture/document/ing-dos.txt'))),

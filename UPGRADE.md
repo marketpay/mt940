@@ -1,4 +1,4 @@
-# Upgrading Jejik/MT940
+# Upgrading MarketPay/MT940
 
 This document list backwards-incompatible changes only.
 
