@@ -38,22 +38,23 @@ class Reader
      * @var array All the parsers shipped in this package
      */
     private $defaultParsers = array(
-        'ABN-AMRO'    => Parser\AbnAmro::class,
+        'ABN-AMRO' => Parser\AbnAmro::class,
+        'CaixaBank' => Parser\CaixaBank::class,
         'Commerzbank' => Parser\Commerzbank::class,
         'DeutscheBank' => Parser\DeutscheBank::class,
-        'ING'         => Parser\Ing::class,
-        'Knab'        => Parser\Knab::class,
+        'ING' => Parser\Ing::class,
+        'Knab' => Parser\Knab::class,
         'LandesBankBerlin' => Parser\LandesBankBerlin::class,
         'Lbbw' => Parser\Lbbw::class,
-        'NuaPayBank'  => Parser\NuaPayBank::class,
+        'NuaPayBank' => Parser\NuaPayBank::class,
         'OldenburgischeLandesbank' => Parser\OldenburgischeLandesbank::class,
         'PostFinance' => Parser\PostFinance::class,
-        'Rabobank'    => Parser\Rabobank::class,
-        'Sns'         => Parser\Sns::class,
-        'Sparkasse'   => Parser\Sparkasse::class,
+        'Rabobank' => Parser\Rabobank::class,
+        'Sns' => Parser\Sns::class,
+        'Sparkasse' => Parser\Sparkasse::class,
 //        'SpecificGermanBank'   => Parser\SpecificGermanBankParser::class, TODO
-        'StarMoney'   => Parser\StarMoney::class,
-        'Triodos'     => Parser\Triodos::class,
+        'StarMoney' => Parser\StarMoney::class,
+        'Triodos' => Parser\Triodos::class,
         'UniCreditBank' => Parser\UniCreditBank::class,
     );
 
@@ -128,7 +129,8 @@ class Reader
     public function getParsers(): array
     {
         $output_array = [];
-        foreach ($this->parsers as $name => $parser) {
+        foreach ($this->parsers as $name => $parser)
+        {
             $output_array[$name] = $parser[0]; // get the classname
         }
         return $output_array;
@@ -148,13 +150,15 @@ class Reader
      */
     public function addParser(string $name, $class, $before = null, $arguments = []): self
     {
-        if ($before === null) {
+        if ($before === null)
+        {
             $this->parsers[$name] = [$class, $arguments];
             return $this;
         }
 
         $offset = array_search($before, array_keys($this->parsers));
-        if ($offset !== false) {
+        if ($offset !== false)
+        {
             $this->parsers = array_slice($this->parsers, $offset, 0, true)
                 + array($name => $class)
                 + array_slice($this->parsers, $offset, null, true);
@@ -170,7 +174,8 @@ class Reader
      */
     public function addParsers(array $parsers): self
     {
-        foreach ($parsers as $name => $class) {
+        foreach ($parsers as $name => $class)
+        {
             $this->addParser($name, $class);
         }
 
@@ -231,7 +236,8 @@ class Reader
      */
     public function setStatementClass($statementClass): self
     {
-        if (!is_callable($statementClass) && !class_exists($statementClass)) {
+        if (!is_callable($statementClass) && !class_exists($statementClass))
+        {
             throw new \InvalidArgumentException('$statementClass must be a valid classname or a PHP callable');
         }
 
@@ -243,12 +249,13 @@ class Reader
      * Create a Statement object
      *
      * @param AccountInterface $account Account number
-     * @param string $number  Statement sequence number
+     * @param string $number Statement sequence number
      */
     public function createStatement(
         AccountInterface $account,
-        string $number
-    ): ?StatementInterface {
+        string           $number
+    ): ?StatementInterface
+    {
         return $this->createObject(
             $this->statementClass,
             StatementInterface::class,
@@ -282,7 +289,8 @@ class Reader
      */
     public function setAccountClass($accountClass): self
     {
-        if (!is_callable($accountClass) && !class_exists($accountClass)) {
+        if (!is_callable($accountClass) && !class_exists($accountClass))
+        {
             throw new \InvalidArgumentException('$accountClass must be a valid classname or a PHP callable');
         }
 
@@ -303,7 +311,8 @@ class Reader
             [$accountNumber]
         );
 
-        if (!empty($accountNumber)) {
+        if (!empty($accountNumber))
+        {
             $object->setNumber($accountNumber);
         }
 
@@ -334,7 +343,8 @@ class Reader
      */
     public function setContraAccountClass($contraAccountClass): self
     {
-        if (!is_callable($contraAccountClass) && !class_exists($contraAccountClass)) {
+        if (!is_callable($contraAccountClass) && !class_exists($contraAccountClass))
+        {
             throw new \InvalidArgumentException('$contraAccountClass must be a valid classname or a PHP callable');
         }
 
@@ -380,7 +390,8 @@ class Reader
      */
     public function setTransactionClass($transactionClass): self
     {
-        if (!is_callable($transactionClass) && !class_exists($transactionClass)) {
+        if (!is_callable($transactionClass) && !class_exists($transactionClass))
+        {
             throw new \InvalidArgumentException('$transactionClass must be a valid classname or a PHP callable');
         }
 
@@ -423,7 +434,8 @@ class Reader
      */
     public function setOpeningBalanceClass($openingBalanceClass): self
     {
-        if (!is_callable($openingBalanceClass) && !class_exists($openingBalanceClass)) {
+        if (!is_callable($openingBalanceClass) && !class_exists($openingBalanceClass))
+        {
             throw new \InvalidArgumentException('$openingBalanceClass must be a valid classname or a PHP callable');
         }
 
@@ -466,7 +478,8 @@ class Reader
      */
     public function setClosingBalanceClass($closingBalanceClass): self
     {
-        if (!is_callable($closingBalanceClass) && !class_exists($closingBalanceClass)) {
+        if (!is_callable($closingBalanceClass) && !class_exists($closingBalanceClass))
+        {
             throw new \InvalidArgumentException('$closingBalanceClass must be a valid classname or a PHP callable');
         }
 
@@ -496,15 +509,19 @@ class Reader
      */
     protected function createObject($className, $interface, $params = [])
     {
-        if (is_string($className) && class_exists($className)) {
+        if (is_string($className) && class_exists($className))
+        {
             $object = new $className();
-        } elseif (is_callable($className)) {
+        } elseif (is_callable($className))
+        {
             $object = call_user_func_array($className, $params);
-        } else {
+        } else
+        {
             throw new \InvalidArgumentException('$className must be a valid classname or a PHP callable');
         }
 
-        if (null !== $object && !($object instanceof $interface)) {
+        if (null !== $object && !($object instanceof $interface))
+        {
             throw new \InvalidArgumentException(sprintf('%s must implement %s', get_class($object), $interface));
         }
 
@@ -521,22 +538,28 @@ class Reader
      */
     public function getStatements(string $text = null): array
     {
-        if ($text === null) {
+        if ($text === null)
+        {
             $text = file_get_contents($this->getFileName());
         }
-        if ($text === null || strlen(trim($text)) === 0) {
+        if ($text === null || strlen(trim($text)) === 0)
+        {
             throw new \Exception("No text is found for parsing.");
         }
-        if (($pos = strpos($text, ':20:')) === false) {
+        if (($pos = strpos($text, ':20:')) === false)
+        {
             throw new \RuntimeException('Not an MT940 statement');
         }
-        if (!$this->parsers) {
+        if (!$this->parsers)
+        {
             $this->addParsers($this->getDefaultParsers());
         }
 
-        foreach ($this->parsers as [$class, $additionalConstructorArgs]) {
+        foreach ($this->parsers as [$class, $additionalConstructorArgs])
+        {
             $parser = new $class($this, ...$additionalConstructorArgs);
-            if ($parser->accept($text)) {
+            if ($parser->accept($text))
+            {
                 return $parser->parse($text);
             }
         }
