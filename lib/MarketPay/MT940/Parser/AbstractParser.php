@@ -353,6 +353,11 @@ abstract class AbstractParser
                 preg_match($pcreCurrency, $text, $match);
                 return $match[3] ?? null;
             }
+            if ($line60M = $this->getLine('60M', $text)) {
+                $pcreCurrency = '/(C|D)(\d{6})([A-Z]{3})([0-9,]{1,15})/';
+                preg_match($pcreCurrency, $text, $match);
+                return $match[3] ?? null;
+            }
         }
         return $currency;
     }
