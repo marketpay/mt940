@@ -39,6 +39,7 @@ class Reader
      */
     private $defaultParsers = array(
         'ABN-AMRO' => Parser\AbnAmro::class,
+        'BNP' => Parser\BNP::class,
         'CaixaBank' => Parser\CaixaBank::class,
         'Commerzbank' => Parser\Commerzbank::class,
         'DeutscheBank' => Parser\DeutscheBank::class,
